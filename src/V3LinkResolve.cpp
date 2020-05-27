@@ -455,6 +455,10 @@ private:
         }
     }
 
+    virtual void visit(AstAttributesList* nodep) VL_OVERRIDE {
+        // @todo
+    }
+
     virtual void visit(AstUdpTable* nodep) VL_OVERRIDE {
         UINFO(5, "UDPTABLE  " << nodep << endl);
         if (!v3Global.opt.bboxUnsup()) {

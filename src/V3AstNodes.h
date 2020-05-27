@@ -5027,6 +5027,31 @@ public:
     void dpiExport(bool flag) { m_dpiExport = flag; }
 };
 
+
+class AstAttributesList : public AstNode {
+public:
+    AstAttributesList(FileLine* fl, AstNode* bodysp)
+        : ASTGEN_SUPER(fl) {
+        addNOp1p(bodysp);
+    }
+    ASTNODE_NODE_FUNCS(AttributesList)
+    // op1 = List of AstAttributesListLine
+    AstAttributesListLine* bodysp() const { return VN_CAST(op1p(), AttributesListLine); }
+};
+
+class AstAttributesListLine : public AstNode {
+    string m_text;
+
+public:
+    AstAttributesListLine(FileLine* fl, const string& text)
+            : ASTGEN_SUPER(fl)
+            , m_text(text) {}
+    ASTNODE_NODE_FUNCS(AttributesListLine)
+    virtual string name() const { return m_text; }
+    string text() const { return m_text; }
+};
+
+
 class AstUdpTable : public AstNode {
 public:
     AstUdpTable(FileLine* fl, AstNode* bodysp)

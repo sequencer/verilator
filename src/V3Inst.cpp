@@ -113,6 +113,10 @@ private:
         VL_DO_DANGLING(nodep->unlinkFrBack()->deleteTree(), nodep);
     }
 
+    virtual void visit(AstAttributesList* nodep) VL_OVERRIDE {
+        // @todo
+    }
+
     virtual void visit(AstUdpTable* nodep) VL_OVERRIDE {
         if (!v3Global.opt.bboxUnsup()) {
             // If we support primitives, update V3Undriven to remove special case
