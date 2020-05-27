@@ -4372,6 +4372,23 @@ strengthSpec:			// IEEE: drive_strength + pullup_strength + pulldown_strength + 
 	;
 
 //************************************************
+// Attributes
+
+attributes_block<nodep>:	// IEEE: part of list_of_arguments
+		yATTRMODE attrmodeEntryList yENDMODE	{ $$ = new AstAttributesList($1,$2); }
+	;
+
+attrmodeEntryList<nodep>:	// IEEE: part of list_of_arguments
+		attrmodeEntry 				{ $$ = $1; }
+	|	attrmodeEntryList attrmodeEntry		{ $$ = $1->addNextNull($2); }
+	;
+
+attrmodeEntry<nodep>:	// IEEE: part of list_of_arguments
+		yaATTRMODEELINE 		{ $$ = new AstAttributesListLine($<fl>1,*$1); }
+	|	error					{ $$ = NULL; }
+	;
+
+//************************************************
 // Tables
 
 combinational_body<nodep>:	// IEEE: combinational_body + sequential_body

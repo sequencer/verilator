@@ -908,18 +908,19 @@ vnum    {vnum1}|{vnum2}|{vnum3}|{vnum4}|{vnum5}
 
   /************************************************************************/
   /* Attributes */
-<ATTRMODE>{crnl}        { yymore(); }
-<ATTRMODE>"*)"          { FL_FWD; yy_pop_state(); FL_BRK; }
-<ATTRMODE>{word}        { yymore(); }
-<ATTRMODE>.             { yymore(); }
-<ATTRMODE><<EOF>>       { FL_FWD; yyerrorf("EOF in (*");
-                          yyleng = 0; yy_pop_state(); FL_BRK; yyterminate(); }
+<ATTRMODE>{crnl}               { yymore(); }
+<ATTRMODE>","                  { FL; yylval.strp = PARSEP->newString(yytext, yyleng); return yaATTRMODEELINE; }
+<ATTRMODE>"*)"                 { yy_pop_state(); FL; return yENDMODE; }
+<ATTRMODE>"`line"{ws}+[^\n\r]*{crnl}       { FL_FWD; PARSEP->ppline(yytext); FL_BRK; }
+<ATTRMODE>.                    { yymore(); }
+<ATTRMODE><<EOF>>              { FL_FWD; yyerrorf("EOF in (*");
+                                 yyleng = 0; yy_pop_state(); FL_BRK; yyterminate(); }
 
   /************************************************************************/
   /* Attributes */
   /* Note simulators vary in support for "(* /_*something*_/ foo*)" where _ doesn't exist */
 <V95,V01,V05,VA5,S05,S09,S12,S17,SAX>{
-    "(*"({ws}|{crnl})*({id}|{escid})    { yymore(); yy_push_state(ATTRMODE); }  /* Doesn't match (*), but (* attr_spec */
+    "(*"?=({ws}|{crnl})*(word)    { FL; yy_push_state(ATTRMODE); return yATTRMODE; }  /* Doesn't match (*), but (* attr_spec */
 }
 
   /************************************************************************/
