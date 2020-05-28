@@ -909,8 +909,8 @@ vnum    {vnum1}|{vnum2}|{vnum3}|{vnum4}|{vnum5}
   /************************************************************************/
   /* Attributes */
 <ATTRMODE>{crnl}               { yymore(); }
-<ATTRMODE>","                  { FL; yylval.strp = PARSEP->newString(yytext, yyleng); return yaATTRMODEELINE; }
-<ATTRMODE>"*)"                 { yy_pop_state(); FL; return yENDMODE; }
+<ATTRMODE>","                  { FL; yylval.strp = PARSEP->newString(yytext, yyleng); return yaATTRMODELINE; }
+<ATTRMODE>"*)"                 { yy_pop_state(); FL; return yENDATTRMODE; }
 <ATTRMODE>"`line"{ws}+[^\n\r]*{crnl}       { FL_FWD; PARSEP->ppline(yytext); FL_BRK; }
 <ATTRMODE>.                    { yymore(); }
 <ATTRMODE><<EOF>>              { FL_FWD; yyerrorf("EOF in (*");

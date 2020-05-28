@@ -268,6 +268,7 @@ class AstSenTree;
 %token<fl>		ygenSTRENGTH	"STRENGTH keyword (strong1/etc)"
 
 %token<strp>		yaTABLELINE	"TABLE LINE"
+%token<strp>		yaATTRMODELINE	"ATTRMODE LINE"
 
 %token<strp>		yaSCHDR		"`systemc_header BLOCK"
 %token<strp>		yaSCINT		"`systemc_ctor BLOCK"
@@ -358,6 +359,8 @@ class AstSenTree;
 %token<fl>		yASSERT		"assert"
 %token<fl>		yASSIGN		"assign"
 %token<fl>		yASSUME		"assume"
+%token<fl>		yATTRMODE	"(*"
+%token<fl>		yENDATTRMODE	"*)"
 %token<fl>		yAUTOMATIC	"automatic"
 %token<fl>		yBEGIN		"begin"
 %token<fl>		yBIND		"bind"
@@ -4375,7 +4378,7 @@ strengthSpec:			// IEEE: drive_strength + pullup_strength + pulldown_strength + 
 // Attributes
 
 attributes_block<nodep>:	// IEEE: part of list_of_arguments
-		yATTRMODE attrmodeEntryList yENDMODE	{ $$ = new AstAttributesList($1,$2); }
+		yATTRMODE attrmodeEntryList yENDATTRMODE	{ $$ = new AstAttributesList($1,$2); }
 	;
 
 attrmodeEntryList<nodep>:	// IEEE: part of list_of_arguments
@@ -4384,7 +4387,7 @@ attrmodeEntryList<nodep>:	// IEEE: part of list_of_arguments
 	;
 
 attrmodeEntry<nodep>:	// IEEE: part of list_of_arguments
-		yaATTRMODEELINE 		{ $$ = new AstAttributesListLine($<fl>1,*$1); }
+		yaATTRMODELINE 		{ $$ = new AstAttributesListLine($<fl>1,*$1); }
 	|	error					{ $$ = NULL; }
 	;
 
